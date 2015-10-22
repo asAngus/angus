@@ -1,0 +1,67 @@
+buildscript {
+    ext {
+        springBootVersion = "1.2.4.RELEASE"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: "eclipse"
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/libs-release" }
+    }
+}
+
+jar {
+    baseName = "org.angus"
+    version = "0.0.1-SNAPSHOT"
+    destinationDir = new File("${rootProject.projectDir}/run")
+}
+apply plugin: "spring-boot"
+apply plugin: "jacoco"
+springBoot {
+    backupSource = false
+    mainClass = 'com.angus.AngusApplication'
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtime("org.hsqldb:hsqldb")
+        //"org.springframework.boot:spring-boot-starter-thymeleaf",
+    compile "org.springframework.boot:spring-boot-starter-web",
+            "org.springframework.boot:spring-boot-starter-actuator",
+            "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile "org.mybatis:mybatis:3.2.4",
+            "org.mybatis:mybatis-spring:1.2.2",
+           // "org.springframework:spring-jdbc:4.1.6.RELEASE",
+            //"org.apache.tomcat:tomcat-jdbc:7.0.50",
+            "cn.guoyukun.jdbc:oracle-ojdbc6:11.2.0.3.0",
+            "mysql:mysql-connector-java:5.1.35",
+            'commons-fileupload:commons-fileupload:1.3.1',
+            'com.googlecode.flyway:flyway-core:2.3.1',
+            'org.apache.commons:commons-lang3:3.0'
+
+    compile "com.alibaba:fastjson:1.1.34",
+            'org.codehaus.jackson:jackson-mapper-asl:1.9.13',
+            'org.codehaus.jackson:jackson-core-asl:1.9.13',
+            "com.jayway.jsonpath:json-path:0.9.1",
+            "org.apache.httpcomponents:httpclient:4.3.5"
+    compile group: 'commons-dbcp', name: 'commons-dbcp', version:'1.4'
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.5"
+}
