@@ -1,0 +1,103 @@
+{
+    "name": "ngFast",
+    "version": "0.2.13",
+    "author": "soliury <hi@lingyong.me>",
+    "description": "Boilerplate using CoffeeScript, AngularJS, SASS, Gulp, and Browserify while also utilizing best practices.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/soliury/ngFast.git"
+    },
+    "keywords": [
+        "coffee",
+        "express",
+        "gulp",
+        "browserify",
+        "angular",
+        "sass",
+        "karma",
+        "jasmine",
+        "protractor",
+        "boilerplate"
+    ],
+    "private": true,
+    "engines": {
+        "node": ">=0.10.26"
+    },
+    "devDependencies": {
+        "angular": "^1.3.14",
+        "angular-mocks": "^1.2.22",
+        "angular-ui-router": "^0.2.10",
+        "brfs": "^1.2.0",
+        "browser-sync": "^2.2.3",
+        "browserify": "9.0.3",
+        "browserify-shim": "^3.8.3",
+        "caching-coffeeify": "^0.5.0",
+        "coffee-script": "^1.9.1",
+        "compression": "^1.4.3",
+        "del": "^1.1.1",
+        "dev-ip": "^1.0.1",
+        "envify": "^3.2.0",
+        "express": "^4.7.2",
+        "gulp": "^3.8.11",
+        "gulp-angular-templatecache": "^1.3.0",
+        "gulp-autoprefixer": "^2.0.0",
+        "gulp-cached": "^1.0.1",
+        "gulp-changed": "^1.0.0",
+        "gulp-coffee": "^2.2.0",
+        "gulp-duration": "0.0.0",
+        "gulp-filter": "^2.0.2",
+        "gulp-html-replace": "^1.4.2",
+        "gulp-htmlmin": "^1.0.0",
+        "gulp-if": "^1.2.5",
+        "gulp-imagemin": "^2.2.1",
+        "gulp-jshint": "^1.8.3",
+        "gulp-karma": "0.0.4",
+        "gulp-minify-css": "^1.0.0",
+        "gulp-notify": "^2.0.0",
+        "gulp-plumber": "^1.0.0",
+        "gulp-rename": "^1.2.0",
+        "gulp-sass": "^1.3.3",
+        "gulp-sourcemaps": "^1.3.0",
+        "gulp-streamify": "0.0.5",
+        "gulp-uglify": "^1.0.1",
+        "gulp-util": "^3.0.1",
+        "gulp-version-tag": "0.0.10",
+        "intreq-stream": "^1.0.0",
+        "jshint-stylish": "^1.0.0",
+        "karma": "^0.12.31",
+        "karma-bro": "^0.11.1",
+        "karma-chrome-launcher": "^0.1.4",
+        "karma-coverage": "^0.2.7",
+        "karma-firefox-launcher": "^0.1.3",
+        "karma-growl-reporter": "^0.1.1",
+        "karma-mocha": "^0.1.10",
+        "mocha": "^2.1.0",
+        "morgan": "^1.2.2",
+        "require-dir": "^0.1.0",
+        "run-sequence": "^1.0.2",
+        "unreachable-branch-transform": "^0.2.3",
+        "vinyl-buffer": "^1.0.0",
+        "vinyl-paths": "^1.0.0",
+        "vinyl-source-stream": "^1.1.0",
+        "vinyl-transform": "^1.0.0",
+        "watchify": "^2.4.0"
+    },
+    "browserify": {
+        "transform": [
+            "browserify-shim"
+        ]
+    },
+    "browser": {
+        "angular": "./node_modules/angular/angular.js",
+        "templates.js": "./.temp/templates/templates.js"
+    },
+    "browserify-shim": {
+        "angular": "angular"
+    },
+    "scripts": {
+        "pretest": "npm install",
+        "build": "NODE_ENV=dev-online gulp build && NODE_ENV=production gulp build",
+        "server:dev": "NODE_ENV=dev-online gulp server",
+        "server:prod": "NODE_ENV=production gulp server"
+    }
+}

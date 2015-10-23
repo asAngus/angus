@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<bean id="weatherSoapService" class="com.javachen.soap.GlobalWeather"
+		scope="singleton" />
+
+	<bean id="weatherSoapServiceEndPoint" class="com.javachen.soap.GlobalWeatherSoap"
+		factory-bean="weatherSoapService" factory-method="getGlobalWeatherSoap"
+		scope="singleton" />
+
+	<context:component-scan base-package="com.javachen.controller" />
+	<context:component-scan base-package="com.javachen.service" />
+	<context:annotation-config />
+
+</beans>
