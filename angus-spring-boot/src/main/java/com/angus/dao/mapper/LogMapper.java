@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import com.angus.model.Log;
 
 /**
- * @author LUCHUNLIANG
+ * @author angus
  *
  */
 public interface LogMapper {

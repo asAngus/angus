@@ -3,7 +3,7 @@ package com.angus.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- *
+ *angus
  */
 @ConfigurationProperties(prefix = "xgsdk.tomcat", ignoreUnknownFields = true)
 public class AccessLogConfig {
