@@ -51,3 +51,4 @@ keytmp/
 *.css.map
 run/
 dist-deploy/
+.factorypath
