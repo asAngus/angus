@@ -31,7 +31,7 @@ publish
 /application.properties
 /application-test.properties
 /application.pid
-/bin/
+bin/
 out
 .sass-cache/
 client/bower_components/
