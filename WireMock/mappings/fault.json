@@ -1,0 +1,10 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/fault"
+    },
+    "response": {
+        "fault": "MALFORMED_RESPONSE_CHUNK"
+    }
+}
+
