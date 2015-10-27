@@ -94,7 +94,18 @@ mappings/delayed.josn
     }
 }
 
+Configuring via JSON
+Once the server has started you can give it a spin by setting up a stub mapping via the JSON API:
 动态增加请求
 
 curl -X POST --data '{ "request": { "url": "/get/this", "method": "GET" }, "response": { "status": 200, "body": "Here it is!\n" }}' http://localhost:8080/__admin/mappings/new
 
+Then fetching it back:
+
+$ curl http://localhost:8080/get/this
+Here it is!
+
+
+Shutting Down
+To shutdown the server, either call WireMock.shutdownServer() or post a request with an empty body to 
+http://<host>:<port>/__admin/shutdown.
