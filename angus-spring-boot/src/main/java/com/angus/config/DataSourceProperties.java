@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import com.angus.utils.AesUtil;
 
-@ConfigurationProperties(prefix = "xgsdk.datasource",
+@ConfigurationProperties(prefix = "angus.datasource",
                          ignoreUnknownFields = false)
 public class DataSourceProperties {
 

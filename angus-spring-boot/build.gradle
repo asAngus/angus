@@ -57,7 +57,8 @@ dependencies {
             'org.codehaus.jackson:jackson-core-asl:1.9.13',
             "com.jayway.jsonpath:json-path:0.9.1",
             "com.alibaba:dns-cache-manipulator:1.5.0",
-            "org.apache.httpcomponents:httpclient:4.3.5"
+            "org.apache.httpcomponents:httpclient:4.3.5",
+            "org.apache.ant:ant-jsch:1.9.6"
     compile group: 'commons-dbcp', name: 'commons-dbcp', version:'1.4'
     testCompile "org.springframework.boot:spring-boot-starter-test"
 
