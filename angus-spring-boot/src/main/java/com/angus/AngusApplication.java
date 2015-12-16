@@ -27,7 +27,7 @@ public class AngusApplication {
 	@PostConstruct
 	public void setMockServer() {
 		// 设置dns指向
-		DnsCacheManipulator.setDnsCache("usrsys.inner.bbk.com", "");
+//		DnsCacheManipulator.setDnsCache("usrsys.inner.bbk.com", "");
 	}
 
 	public static void main(String[] args) {

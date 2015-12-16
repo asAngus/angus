@@ -1,0 +1,25 @@
+{
+    "data":[
+        {
+            "wo_project_id":"3",
+            "wo_uid":"18826210743",
+            "wo_orderid":"WBF20151127105529001984",
+            "wo_money":"0.01",
+            "wo_rate":"6.00",
+            "wo_starttime":"20151127",
+            "wo_endtime":"20151204",
+            "wo_bonus_status":"1",
+            "wo_bonus_money":"0.00",
+            "wo_bonus_time":"2147483647",
+            "wo_rebate_money":"0.00",
+            "wo_rebate_rate":"0.00",
+            "wo_shouyi":"0.00",
+            "wo_allearn":"0.00",
+            "wo_status":"1",
+            "wo_renewal":"0",
+            "wo_extension":"0"
+        }
+    ],
+    "info":"成功",
+    "status":"0000"
+}
