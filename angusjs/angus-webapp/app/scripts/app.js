@@ -20,6 +20,8 @@ angular
     'phonecatServices',
     'phonecatFilters',
     'phonecatAnimations',
+    'productControllers',
+    'productServices'
 
   ])
   .config(function ($routeProvider) {
@@ -35,6 +37,14 @@ angular
         controllerAs: 'about'
       }).
       when('/phones', {
+        templateUrl: 'views/phone-list.html',
+        controller: 'PhoneListCtrl'
+      }).
+      when('/products', {
+        templateUrl: 'views/product-list.html',
+        controller: 'ProductListCtrl'
+      }).
+      when('/products/:phoneId', {
         templateUrl: 'views/phone-list.html',
         controller: 'PhoneListCtrl'
       }).

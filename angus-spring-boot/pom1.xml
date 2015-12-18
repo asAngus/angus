@@ -15,7 +15,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.2.5.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
@@ -28,14 +28,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -44,6 +44,33 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+	<profiles>
+
+		<!-- 刷新开发环境数据库 -->
+		<profile>
+			<id>refresh-db</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<configuration>
+							<target>
+
+								<property file="src/main/resources/application.properties" />
+								<sql driver="${angus.datasource..driver}" url="${angus.datasource..url}"
+									userid="${angus.datasource..username}" password="${angus.datasource.password}"
+									onerror="continue" encoding="${angus.datasource.sourceEncoding}">
+									<classpath refid="maven.test.classpath" />
+									<transaction src="src/main/resources/sql/h2/init.sql" />
+									<!-- <transaction src="src/test/resources/data/h2/import-data.sql" /> -->
+								</sql>
+							</target>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

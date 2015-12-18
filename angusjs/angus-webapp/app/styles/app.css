@@ -18,6 +18,9 @@ body {
   list-style: none;
 }
 
+.products {
+  list-style: none;
+}
 .thumb {
   float: left;
   margin: -0.5em 1em 1.5em 0;

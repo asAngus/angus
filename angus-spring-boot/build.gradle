@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.flywaydb:flyway-gradle-plugin:3.2.1"
     }
 }
 
@@ -14,6 +15,8 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: "eclipse"
+    apply plugin: "maven"
+    apply plugin: 'org.flywaydb.flyway'
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
     repositories {
@@ -40,7 +43,8 @@ dependencies {
         //"org.springframework.boot:spring-boot-starter-thymeleaf",
     compile "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-actuator",
-            "org.springframework.boot:spring-boot-configuration-processor"
+            "org.springframework.boot:spring-boot-configuration-processor",
+            "org.thymeleaf:thymeleaf-spring4"
 
     compile "org.mybatis:mybatis:3.2.4",
             "org.mybatis:mybatis-spring:1.2.2",
@@ -60,11 +64,19 @@ dependencies {
             "com.alibaba:dns-cache-manipulator:1.5.0",
             "org.apache.httpcomponents:httpclient:4.3.5",
             "org.apache.ant:ant-jsch:1.9.6"
+    //compile "org.flywaydb:flyway-core:3.2.1"
     compile group: 'commons-dbcp', name: 'commons-dbcp', version:'1.4'
     testCompile "org.springframework.boot:spring-boot-starter-test"
 
 }
-
+flyway {
+    driver = 'org.h2.Driver'
+    url = 'jdbc:h2:file:~/.h2/quickstart;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE'
+    user = 'sa'
+    password = ''
+    schemas = ['schemas1','schemas2']
+    //callbacks = ['com.mycompany.proj.CustomCallback', 'com.mycompany.proj.AnotherCallback']
+}
 task wrapper(type: Wrapper) {
-    gradleVersion = "2.5"
+    gradleVersion = "2.8"
 }
