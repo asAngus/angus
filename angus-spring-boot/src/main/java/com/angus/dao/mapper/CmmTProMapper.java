@@ -22,7 +22,7 @@ public interface CmmTProMapper {
 	List<CmmTPro> queryByPrdType(CmmTPro pro);
 
 	@Select("SELECT PRD_ID ,FUND_CORG ,PRD_TYP FROM CMMTPRO")
-	List<CmmTPro> query();
+	List<CmmTPro> queryAll();
 
 	@Insert("INSERT INTO CMMTPRO (PRD_ID,FUND_CORG,PRD_TYP) VALUES (#{prdId,jdbcType=VARCHAR}, #{fundCorg,jdbcType=VARCHAR}, #{prdTyp,jdbcType=VARCHAR})")
 	int saveAndFlush(CmmTPro prd);

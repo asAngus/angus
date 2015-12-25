@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <!--Sidebar content-->
+
+      Search: <input ng-model="query">
+      Sort by:
+      <select ng-model="orderProp">
+        <option value="prdId">产品id</option>
+        <option value="prdTyp">产品类型</option>
+      </select>
+
+    </div>
+    <div class="col-md-10">
+      <!--Body content-->
+
+      <ul class="products">
+        <li ng-repeat="product in products | orderBy:orderProp"
+            class="thumbnail phone-listing">
+          <a href="#/products/{{product.prdId}}" class="thumb">
+          <a href="#/products/{{product.prdId}}">{{product.prdId}}</a>
+          <p>{{product.prdTyp}}</p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

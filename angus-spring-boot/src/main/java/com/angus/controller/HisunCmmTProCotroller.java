@@ -41,7 +41,7 @@ public class HisunCmmTProCotroller {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/find")
 	public List<CmmTPro> find() {
-		List<CmmTPro> query = proMapper.query();
+		List<CmmTPro> query = proMapper.queryAll();
 
 		return query;
 	}

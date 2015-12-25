@@ -5,7 +5,10 @@
 	<artifactId>com.angus.mock</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>mock</name>
-
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.tomakehurst</groupId>
