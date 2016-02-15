@@ -5,7 +5,7 @@
  * Company: cloudfn<br/>
  *
  */
-package com.hisun.cmm.tools;
+package com.cmm.tools;
 
 import java.util.Map;
 

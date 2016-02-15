@@ -5,7 +5,7 @@
  * Company: cloudfn<br/>
  *
  */
-package com.hisun.cmm.tools.svn.log.model;
+package com.cmm.tools.svn.log.model;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * Company: cloudfn<br/>
  * 
  * @author weipeng
- * @date 2016年1月20日下午2:35:50
+ * @date 2016�?1??20?��???2:35:50
  *
  */
 @XStreamAlias("log")
@@ -30,12 +30,12 @@ public class Log {
 
     public static String toXml(Object obj) {
         XStream xstream = new XStream(new DomDriver("utf8"));
-        xstream.processAnnotations(obj.getClass()); // 识别obj类中的注解
+        xstream.processAnnotations(obj.getClass()); // �???obj类中??注解
         /*
-         * // 以压缩的方式输出XML StringWriter sw = new StringWriter();
+         * // 以�??缩�???��?�???XML StringWriter sw = new StringWriter();
          * xstream.marshal(obj, new CompactWriter(sw)); return sw.toString();
          */
-        // 以格式化的方式输出XML
+        // 以�?��??????��?�???XML
         return xstream.toXML(obj);
     }
 

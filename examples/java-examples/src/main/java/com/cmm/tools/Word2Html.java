@@ -1,4 +1,4 @@
-package com.hisun.cmm.tools;
+package com.cmm.tools;
 
 /**
  * 

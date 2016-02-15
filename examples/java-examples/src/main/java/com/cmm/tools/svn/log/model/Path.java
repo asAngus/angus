@@ -1,4 +1,4 @@
-package com.hisun.cmm.tools.svn.log.model;
+package com.cmm.tools.svn.log.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;

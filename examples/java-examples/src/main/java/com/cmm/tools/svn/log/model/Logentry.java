@@ -1,4 +1,4 @@
-package com.hisun.cmm.tools.svn.log.model;
+package com.cmm.tools.svn.log.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

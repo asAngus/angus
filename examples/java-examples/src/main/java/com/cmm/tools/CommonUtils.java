@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hisun.cmm.tools;
+package com.cmm.tools;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import com.hisun.cmm.tools.svn.log.model.Log;
-import com.hisun.cmm.tools.svn.log.model.Logentry;
-import com.hisun.cmm.tools.svn.log.model.Path;
+import com.cmm.tools.svn.log.model.Log;
+import com.cmm.tools.svn.log.model.Logentry;
+import com.cmm.tools.svn.log.model.Path;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
