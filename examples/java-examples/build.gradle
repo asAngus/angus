@@ -1,0 +1,66 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile(
+                fileTree(dir: 'libs', include: '*.jar')
+        )
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    compile "net.sf.jopt-simple:jopt-simple:4.9",
+            'log4j:log4j:1.2.17',
+            'commons-logging:commons-logging:1.2',
+            'org.apache.poi:poi:3.9',
+            'org.apache.poi:poi-ooxml:3.9',
+            'org.apache.poi:poi-ooxml-schemas:3.9',
+            'org.apache.poi:poi-scratchpad:3.9',
+            'commons-io:commons-io:2.4',
+            'com.thoughtworks.xstream:xstream:1.4.8'
+            
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+
+task release(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+        'Implementation-Version': version,
+        "Main-Class": "com.hisun.cmm.tools.CommonUtils"
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
+jar {
+    manifest {
+        attributes("Main-Class": "com.hisun.cmm.tools.CommonUtils")
+    }
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
