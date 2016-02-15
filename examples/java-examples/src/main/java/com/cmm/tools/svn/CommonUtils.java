@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cmm.tools;
+package com.cmm.tools.svn;
 
 import java.io.BufferedReader;
 import java.io.File;

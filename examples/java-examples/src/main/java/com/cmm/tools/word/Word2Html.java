@@ -1,4 +1,4 @@
-package com.cmm.tools;
+package com.cmm.tools.word;
 
 /**
  * 
