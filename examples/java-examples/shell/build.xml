@@ -1,0 +1,97 @@
+<project default="build">
+	<property name="svn" value="/usr/local/bin/svn" />
+
+	<property name="java" value="/usr/bin/java" />
+	<property name="svn_dir" value="/Users/weipeng/code/wowealth/svn/wowealth" />
+	<tstamp>
+		<format property="touch.time" pattern="yyyyMMdd" unit="hour" />
+	</tstamp>
+
+	<!--property name="lstFileName" value="auto_${touch.time}" /-->
+	<property name="log_tag" value="WCR_00062" />
+	<property name="lstFileName" value="WBF_${log_tag}_DEVWP_${touch.time}" />
+	<property name="lstFile" value="${lstFileName}.lst" />
+	<property name="auth" value="none" />
+	<property name="start_version" value="9034" />
+	<property name="end_version" value="HEAD" />
+
+	<target name="build">
+		<echo>跟新svn</echo>
+		<!--<exec executable="${svn}" failonerror="false" dir="${svn_dir}/">
+			<arg value="update" />
+		</exec>-->
+		<echo>执行分析jar</echo>
+
+		<exec executable="${java}" failonerror="true">
+			<arg value="-jar" />
+			<arg value="hisun.pack-all-1.0.jar" />
+			<arg value="--outFileName=${lstFile}" />
+			<arg value="--baseDir=${basedir}" />
+			<arg value="--auth=${auth}" />
+			<arg value="--svnPath=${svn_dir}" />
+			<arg value="--logTag=${log_tag}" />
+			<arg value="--startVersion=${start_version}" />
+			<arg value="--endVersion=${end_version}" />
+		</exec>
+		<condition property="lstFileIsExists">
+			<and>
+				<available file="${lstFile}" />
+			</and>
+		</condition>
+		<antcall target="isTrue">
+		</antcall>
+		<antcall target="isFalse">
+		</antcall>
+	</target>
+	<!-- 测试环境 -->
+	<property name="test-ip" value="112.96.28.45" />
+	<property name="test-username" value="veradm1" />
+	<property name="test-remote-dir" value="/app/ver" />
+	<!-- 投产环境 -->
+	<property name="ip" value="112.96.28.35" />
+	<property name="username" value="payopr" />
+	<property name="remote-dir" value="/home/payopr" />
+	<property name="keyfile" value="/Users/weipeng/.ssh/id_rsa" />
+	<property name="passphrase" value="wp$101214" />
+	<target name="isTrue" if="lstFileIsExists">
+		<echo>上传文件${basedir}/${lstFile}</echo>
+		<sshexec host="${test-ip}" username="${test-username}" command=". .bash_profile;cd update;rm -rf ${lstFileName}*" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+
+		<scp file="${basedir}/${lstFile}" todir="${test-username}@${test-ip}:${test-remote-dir}/update" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		<echo>打包${lstFile}</echo>
+		<sshexec host="${test-ip}" username="${test-username}" command=". .bash_profile;cd update;pack_ver.sh ${lstFile}" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+
+		<mkdir dir="${basedir}/pkgtest" />
+		<delete file="${basedir}/pkgtest/${lstFileName}.tar.gz" />
+		<echo>下载测试${lstFileName}.tar.gz</echo>
+		<scp todir="${basedir}/pkgtest" trust="true" file="${test-username}@${test-ip}:${test-remote-dir}/update/${lstFileName}.tar.gz" keyfile="${keyfile}" passphrase="${passphrase}">
+		</scp>
+		<sshexec host="${test-ip}" username="${test-username}" command=". .bash_profile;cd update;rm -rf ${lstFileName}*" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+
+		<!--生产 -->
+		<scp file="${basedir}/${lstFile}" todir="${username}@${ip}:${remote-dir}/update" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		<echo>打包${lstFile}</echo>
+		<sshexec host="${ip}" username="${username}" command=". .bash_profile;ssh -t payopr@10.123.96.46 '. .bash_profile;cd update;rm -rf ${lstFileName}*'" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		<sshexec host="${ip}" username="${username}" command=". .bash_profile;scp update/${lstFile} payopr@10.123.96.46:/home/payopr/update" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		<sshexec host="${ip}" username="${username}" command=". .bash_profile;ssh -t payopr@10.123.96.46 '. .bash_profile;cd update; pack_ver.sh ${lstFile}'" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		
+		<sshexec host="${ip}" username="${username}" command=". .bash_profile;scp payopr@10.123.96.46:/home/payopr/update/${lstFileName}.tar.gz ./update" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		
+		<mkdir dir="${basedir}/pkg" />
+		<delete file="${basedir}/pkg/${lstFileName}.tar.gz" />
+		<echo>下载生产${lstFileName}.tar.gz</echo>
+		<scp todir="${basedir}/pkg" trust="true" file="${username}@${ip}:${remote-dir}/update/${lstFileName}.tar.gz" keyfile="${keyfile}" passphrase="${passphrase}">
+		</scp>
+		<sshexec host="${ip}" username="${username}" command=". .bash_profile;cd update;rm -rf ${lstFileName}*;ssh -t payopr@10.123.96.46 '. .bash_profile;cd update;rm -rf ${lstFileName}*'" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+
+		<delete file="${basedir}/${lstFile}" />
+
+	</target>
+	<target name="isFalse" unless="lstFileIsExists">
+		<fail message="执行出错" />
+	</target>
+	<target name="test">
+		<sshexec host="${test-ip}" username="${test-username}" command=". .bash_profile;cd update;pack_ver.sh YBR20151215.lst" failonerror="false" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+	</target>
+
+</project>
