@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  *angus
  */
-@ConfigurationProperties(prefix = "xgsdk.tomcat", ignoreUnknownFields = true)
+@ConfigurationProperties(prefix = "angus.tomcat", ignoreUnknownFields = true)
 public class AccessLogConfig {
 
 	private boolean accessLogEnabled;
