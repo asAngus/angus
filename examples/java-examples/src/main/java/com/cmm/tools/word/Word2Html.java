@@ -45,29 +45,6 @@ public class Word2Html {
         }
     }
 
-    public static void writeFile(String content, String path) {
-        FileOutputStream fos = null;
-        BufferedWriter bw = null;
-        try {
-            File file = new File(path);
-            fos = new FileOutputStream(file);
-            bw = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
-            bw.write(content);
-        } catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        } finally {
-            try {
-                if (bw != null)
-                    bw.close();
-                if (fos != null)
-                    fos.close();
-            } catch (IOException ie) {
-            }
-        }
-    }
-
     public static void convert2Html(String fileName, String outPutFile)
             throws Exception {
         Document doc = process(new File(fileName));
@@ -95,6 +72,29 @@ public class Word2Html {
         sb.append("\n<%@ include file=\"/jsp/app_tj_include.jsp\" %>");
         sb.append("</body>\n</html>");
         writeFile(sb.toString(), outPutFile);
+    }
+
+    static void writeFile(String content, String path) {
+        FileOutputStream fos = null;
+        BufferedWriter bw = null;
+        try {
+            File file = new File(path);
+            fos = new FileOutputStream(file);
+            bw = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+            bw.write(content);
+        } catch (FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {
+            try {
+                if (bw != null)
+                    bw.close();
+                if (fos != null)
+                    fos.close();
+            } catch (IOException ie) {
+            }
+        }
     }
 
     static Document process(File docFile) throws Exception {

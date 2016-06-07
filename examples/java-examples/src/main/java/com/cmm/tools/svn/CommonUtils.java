@@ -6,6 +6,7 @@ package com.cmm.tools.svn;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -36,6 +37,8 @@ public class CommonUtils {
     private static final String END_VERSION = "endVersion";
     private static final String BASE_DIR = "baseDir";
     private static final String LOG_TAG = "logTag";
+    private static final String NEED_JSP = "needJsp";
+    private static final String CON_STR = "filterStr";
 
     public static void main(String[] args) throws FileNotFoundException {
         OptionParser optionParser = new OptionParser();
@@ -47,6 +50,8 @@ public class CommonUtils {
         optionParser.accepts(BASE_DIR, "baseDir").withRequiredArg();
         optionParser.accepts(OUT_FILE_NAME, "outFileName").withRequiredArg();
         optionParser.accepts(LOG_TAG, "logTag").withRequiredArg();
+        optionParser.accepts(NEED_JSP, "needJsp").withRequiredArg();
+        optionParser.accepts(CON_STR, "filterStr").withRequiredArg();
         OptionSet parse = optionParser.parse(args);
         String helpText = "";
         if (parse.has(HELP)) {
@@ -88,8 +93,24 @@ public class CommonUtils {
             endVersion = (String) parse.valueOf(END_VERSION);
         }
         String outFileName = System.currentTimeMillis() + ".lst";
-        if (parse.has(OUT_FILE_NAME)) {
-            outFileName = (String) parse.valueOf(OUT_FILE_NAME);
+        if (parse.has("outFileName")) {
+            outFileName = (String) parse.valueOf("outFileName");
+
+            String replaceAll = outFileName
+                    .substring(0, outFileName.length() - 4)
+                    .replaceAll("\\.", "_");
+
+            outFileName = replaceAll
+                    + outFileName.substring(outFileName.length() - 4);
+        }
+        boolean needJsp = true;
+        if (parse.has("needJsp")) {
+            needJsp = Boolean.valueOf(parse.valueOf("needJsp").toString())
+                    .booleanValue();
+        }
+        String filterStr = "";
+        if (parse.has("filterStr")) {
+            filterStr = parse.valueOf("filterStr").toString();
         }
         File outFile = new File(baseDir, outFileName);
         outFile.delete();
@@ -100,7 +121,7 @@ public class CommonUtils {
                 startVersion, endVersion, auth };
         String execute = execute(cmdStrArr, new File(svnPath));
         try {
-            writeFile(auth, outFile, execute, logTag);
+            writeFile(auth, outFile, execute, logTag, needJsp, filterStr);
         } catch (Exception e) {
             e.printStackTrace(System.out);
             throw new RuntimeException(e);
@@ -109,14 +130,56 @@ public class CommonUtils {
     }
 
     private static void writeFile(String auth, File outFile, String execute,
-            String logTag) throws FileNotFoundException {
+            String logTag, boolean needJsp, String filterStr)
+                    throws FileNotFoundException {
         Log bean = Log.toBean(execute, Log.class);
+        File logFile = new File("./log/");
+        logFile.mkdirs();
+        String outFileName = outFile.getName();
+
+        PrintStream svnLogFile = new PrintStream(logFile.getPath() + "/svn_log_"
+                + outFileName.substring(0, outFileName.length() - 4) + ".xml");
+        svnLogFile.println(execute);
+        svnLogFile.close();
         List<Logentry> logentrys = bean.getLogentry();
         List<String> outList = new ArrayList<String>();
         List<String> delList = new ArrayList<String>();
         Set<String> bootList = new LinkedHashSet<String>();
         String bootFormat = "i_boot:%s:%s";
         String fileFormat = "file:%s:%s";
+        File other = new File("./other");
+        List<String> log = new ArrayList<String>();
+        Set<String> others = new LinkedHashSet<String>();
+        if (other.exists()) {
+            File[] listFiles = other.listFiles();
+            for (File file : listFiles) {
+                String name = file.getName();
+                if (name.endsWith(".lst")) {
+                    BufferedReader fileReader = new BufferedReader(
+                            new FileReader(file));
+                    try {
+                        String readLine = fileReader.readLine();
+                        while (readLine != null) {
+                            others.add(readLine.trim());
+                            readLine = fileReader.readLine();
+                        }
+                        try {
+                            fileReader.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            fileReader.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
         for (Logentry logentry : logentrys) {
             if (!"".equals(auth) && !"none".equals(auth)
                     && !logentry.getAuthor().equals(auth)) {
@@ -160,23 +223,34 @@ public class CommonUtils {
                     if (modelEndSplit < 0) {
                         continue;
                     }
-                    // ???????
                     if (!file.getName().contains(".") && !isDelete) {
                         continue;
                     }
                     modelName = substring.substring(modelEndSplit + 1,
                             modelStartSplit);
                 }
+                // 过滤某些文件
+                if (substring.contains(filterStr)) {
+                    continue;
+                }
+                if (!needJsp && substring.contains("ejbs/clientweb")) {
+                    continue;
+                }
                 String instanceName = "PAY";
                 if ("MCA".equals(name.toUpperCase(Locale.getDefault()))) {
                     instanceName = "MCA";
+                } else if ("BUI"
+                        .equals(name.toUpperCase(Locale.getDefault()))) {
+                    instanceName = "BUI";
                 }
 
                 String outStr = String.format(fileFormat, substring,
                         instanceName);
-                // ???????????в?????????б??д???
                 if (!isDelete) {
                     if (outList.contains(outStr)) {
+                        continue;
+                    }
+                    if (others.contains(outStr)) {
                         continue;
                     }
                     outList.add(outStr);
@@ -187,7 +261,7 @@ public class CommonUtils {
                     }
                 } else {
                     outList.remove(outStr);
-
+                    others.remove(outStr);
                     if (!file.getName().contains(".")) {
                         for (String tmp : outList) {
                             if (tmp.contains(substring)) {
@@ -207,12 +281,21 @@ public class CommonUtils {
         printStream.println();
         bootList.add(String.format(bootFormat, "S.PARSVR", "MCA"));
         bootList.add(String.format(bootFormat, "S.PARSVR", "PAY"));
+        bootList.add(String.format(bootFormat, "S.PARSVR", "BUI"));
         for (String boot : bootList) {
             printStream.println(boot);
         }
-
         printStream.flush();
         printStream.close();
+
+        PrintStream printStreamLog = new PrintStream(
+                logFile.getAbsolutePath() + "/" + outFile.getName());
+        for (String string : log) {
+            printStreamLog.println(string);
+        }
+
+        printStreamLog.flush();
+        printStreamLog.close();
     }
 
     public static String execute(final String[] cmdStrArr, File workFile) {
