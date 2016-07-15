@@ -46,9 +46,11 @@ public class DBImport {
     public static void main(String[] args) {
         // 设定数据库驱动，数据库连接地址、端口、名称，用户名，密码
         String driverName = "oracle.jdbc.driver.OracleDriver";
-        String url = "jdbc:oracle:thin:@112.96.28.45:8006/wowealth"; // test为数据库名称，1521为连接数据库的默认端口
+        // String url = "jdbc:oracle:thin:@112.96.28.45:8006/wowealth"; // 开发
+        String url = "jdbc:oracle:thin:@112.96.28.45:8004/wowealth"; // 测试
         String user = "payadm"; // aa为用户名
-        String password = "Z9!&81f^o"; // 123为密码
+        String password = "m03&23f^"; // 测试
+        // String password = "Z9!&81f^o"; // 开发
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -59,15 +61,17 @@ public class DBImport {
         try {
             reader = new BufferedReader(new FileReader("./test.cvs"));
             String readLine = reader.readLine();
-            String[] split = readLine.split(",");
             Map<String, List<String>> tmp = new HashMap<>();
-            for (String string : split) {
+            while (readLine != null) {
+                String[] split = readLine.split(",");
+
                 List<String> list = tmp.get(split[0]);
                 if (list == null) {
                     list = new ArrayList<>();
                     tmp.put(split[0], list);
                 }
-                list.add(string);
+                list.add(readLine);
+                readLine = reader.readLine();
             }
             // 反射Oracle数据库驱动程序类
             Class.forName(driverName);
@@ -90,11 +94,16 @@ public class DBImport {
                 delPstmt.setString(1, key);
                 delPstmt.executeUpdate();
                 List<String> value = entry.getValue();
-                int i = 1;
+
                 for (String string : value) {
-                    pstmt.setString(i++, string);
+                    int i = 1;
+                    String[] split = string.split(",");
+                    for (String valueStr : split) {
+                        pstmt.setString(i++, valueStr);
+                    }
+                    pstmt.addBatch();
                 }
-                pstmt.addBatch();
+
             }
 
             // 执行查询语句，将数据保存到ResultSet对象中

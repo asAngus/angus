@@ -59,7 +59,7 @@ public class TaobaoUtils {
         String params = "{\"code\":\"251314\",\"product\":\"tests \"}";
         // 验证码${code}，您正在进行${product}身份验证，打死不要告诉别人哦！
         req.setSmsParamString(params);
-        req.setRecNum("15873312100");
+        req.setRecNum("15874864095");
         req.setSmsTemplateCode("SMS_3990948");
         AlibabaAliqinFcSmsNumSendResponse rsp;
         try {
