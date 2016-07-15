@@ -46,11 +46,11 @@ public class DBImport {
     public static void main(String[] args) {
         // 设定数据库驱动，数据库连接地址、端口、名称，用户名，密码
         String driverName = "oracle.jdbc.driver.OracleDriver";
-        // String url = "jdbc:oracle:thin:@112.96.28.45:8006/wowealth"; // 开发
-        String url = "jdbc:oracle:thin:@112.96.28.45:8004/wowealth"; // 测试
+         String url = "jdbc:oracle:thin:@112.96.28.45:8006/wowealth"; // 开发
+        //String url = "jdbc:oracle:thin:@112.96.28.45:8004/wowealth"; // 测试
         String user = "payadm"; // aa为用户名
-        String password = "m03&23f^"; // 测试
-        // String password = "Z9!&81f^o"; // 开发
+        //String password = "m03&23f^"; // 测试
+         String password = "Z9!&81f^o"; // 开发
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -83,7 +83,7 @@ public class DBImport {
             System.out.println(conn);
 
             // 定制sql命令
-            String sql = "Insert into MKMOUTSCOREPRDDETAIL (PRD_ID,CODE_STS,FAV_CODE,TM_SMP) values (?,?,?,to_char(sysdate,'yyyymmddhhmiss'))";
+            String sql = "Insert into MKMOUTSCOREPRDDETAIL (PRD_ID,CODE_STS,FAV_CODE,FAV_ACCOUNT,TM_SMP) values (?,?,?,?,to_char(sysdate,'yyyymmddhhmiss'))";
             String del = "delete MKMOUTSCOREPRDDETAIL where prd_id=?";
             // 创建该连接下的PreparedStatement对象
             pstmt = conn.prepareStatement(sql);
