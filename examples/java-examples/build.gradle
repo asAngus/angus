@@ -23,6 +23,7 @@ dependencies {
     compile "net.sf.jopt-simple:jopt-simple:4.9",
             'log4j:log4j:1.2.17',
             'commons-logging:commons-logging:1.2',
+            'commons-lang:commons-lang:2.6',
             'org.apache.poi:poi:3.9',
             'org.apache.poi:poi-ooxml:3.9',
             'org.apache.poi:poi-ooxml-schemas:3.9',
@@ -30,6 +31,7 @@ dependencies {
             'commons-io:commons-io:2.4',
             'com.thoughtworks.xstream:xstream:1.4.8',
             'com.oracle:ojdbc14:10.2.0.4.0'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
