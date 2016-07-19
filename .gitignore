@@ -50,5 +50,7 @@ keytmp/
 *.js.map
 *.css.map
 run/
+jyq/
+jdz/
 dist-deploy/
 .factorypath
