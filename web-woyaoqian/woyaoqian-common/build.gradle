@@ -1,0 +1,34 @@
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+apply plugin: "java"
+
+buildscript {
+    ext {
+        springBootVersion = "1.2.4.RELEASE"
+        springLoadedVersion = "1.2.3.RELEASE"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework:springloaded:${springLoadedVersion}")
+    }
+}
+
+jar {
+    baseName = "woyaoqian-common"
+    destinationDir = new File("${rootProject.projectDir}/sdkserver-core/publish")
+}
+
+dependencies {
+    compile fileTree(dir: "libs", include: "*.jar")
+    compile "com.alibaba:fastjson:1.2.4",
+            "org.apache.commons:commons-lang3:3.3.2",
+            "javax.servlet:javax.servlet-api:3.1.0",
+            "commons-codec:commons-codec:1.5",
+            "org.apache.httpcomponents:httpclient:4.5",
+            "org.springframework:spring-web:4.1.6.RELEASE",
+            "com.squareup.okhttp:okhttp:2.4.0",
+            "org.slf4j:slf4j-api:1.7.6"
+}

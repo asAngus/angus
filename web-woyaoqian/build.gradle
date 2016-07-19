@@ -1,0 +1,93 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'org.ajoberstar:grgit:1.4.1'
+        //classpath "gradle.plugin.com.palantir.gradle.gitversion:gradle-git-version:0.2.0"
+    }
+}
+
+ext {
+    // Open the Git repository in the current directory.
+    git = org.ajoberstar.grgit.Grgit.open(file('.'))
+    // Get commit id of HEAD.
+    revision = git.head().id
+    // Alternative is using abbreviatedId of head() method.
+    // revision = git.head().abbreviatedId
+    println "[EXT] current git revision:" + revision
+}
+
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+    apply plugin: 'eclipse'
+    //apply plugin: "com.palantir.git-version"
+    group = 'com.xgsdk.server'
+    version = '2.0'
+}
+
+subprojects{
+    apply plugin: 'java'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    repositories {
+        mavenCentral()
+        maven { url "http://repo.spring.io/milestone" }
+    }
+
+    task copyJars(type: Copy) {
+        from configurations.runtime
+        into 'dist'
+    }
+
+    task fatJar(type: Jar) {
+        manifest {
+            attributes 'Implementation-Title': 'Gradle Jar File Example',
+                    'Implementation-Version': version
+        }
+        baseName = project.name + '-all'
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+        with jar
+    }
+
+    jar {
+        manifest {
+            attributes 'Git-Commit-Id': "${revision}"
+        }
+    }
+}
+
+configure(subprojects.findAll{it.name.startsWith('channel')}){
+    [compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+    eclipse{
+        project.name="woyaoqian-"+project.name.replace("/","-")
+    }
+
+    dependencies {
+        compile(
+                project(':woyaoqian-common'),
+                fileTree(dir: 'libs', include: '*.jar')
+        )
+        testCompile (
+                'junit:junit:4.11',
+                'org.powermock:powermock-core:1.5.6',
+                'org.powermock:powermock-module-junit4:1.5.6',
+                'org.powermock:powermock-api-mockito:1.5.6',
+                'ch.qos.logback:logback-classic:1.1.2'
+        )
+    }
+
+    jar {
+        destinationDir = new File("${rootProject.projectDir}/woyaoqian-core")
+        from {
+            fileTree(dir: "${project.projectDir}/libs", include: '*.jar').collect {
+                it.isDirectory() ? it : zipTree(it)
+            }
+        }
+    }
+}

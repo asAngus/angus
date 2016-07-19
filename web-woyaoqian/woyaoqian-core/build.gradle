@@ -1,0 +1,59 @@
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+apply plugin: "java"
+
+buildscript {
+    ext {
+        springBootVersion = "1.2.4.RELEASE"
+        springLoadedVersion = "1.2.3.RELEASE"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework:springloaded:${springLoadedVersion}")
+    }
+}
+
+apply plugin: "spring-boot"
+
+springBoot {
+    backupSource = false
+    mainClass = "com.woyaoqian.server.WYQserverApplication"
+}
+
+bootRun {
+    if ( project.hasProperty('args') ) {
+        args project.args.split('\\s+')
+    }
+}
+
+jar {
+    baseName = "xgsdk-server"
+    destinationDir = new File("${rootProject.projectDir}/woyaoqian-core/publish")
+}
+
+dependencies {
+    compile fileTree(dir: "lib", include: "*.jar")
+
+    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}",
+            "org.springframework.boot:spring-boot-starter-web:${springBootVersion}",
+            "org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}",
+            "org.springframework.boot:spring-boot-starter-data-rest:${springBootVersion}"
+
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+
+    compile(
+            project(":sdkserver-common"),
+            "org.apache.commons:commons-lang3:3.3.2",
+            "org.mybatis:mybatis-spring:1.2.2",
+            "org.mybatis:mybatis:3.2.8",
+            "org.apache.tomcat:tomcat-jdbc:7.0.50",
+            "com.alibaba:fastjson:1.2.4",
+            "com.alibaba:dns-cache-manipulator:1.5.0",
+            "mysql:mysql-connector-java",
+            'com.squareup.okhttp:okhttp:2.4.0'
+    )
+
+}
