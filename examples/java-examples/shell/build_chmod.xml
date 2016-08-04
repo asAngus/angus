@@ -1,0 +1,61 @@
+<project default="build">
+	<property name="svn" value="/usr/local/bin/svn" />
+
+	<property name="java" value="/usr/bin/java" />
+	<property name="svn_dir" value="/Users/weipeng/code/wowealth/svn/wowealth" />
+	<tstamp>
+		<format property="touch.time" pattern="yyyyMMdd" unit="hour" />
+	</tstamp>
+
+	<!--property name="lstFileName" value="auto_${touch.time}" /-->
+	<property name="log_tag" value="WCR_00062" />
+	<property name="env_name" value="WBFUAT" />
+	<property name="seq" value="01" />
+	<property name="lstFileName" value="${env_name}_${log_tag}_DEVWP_${touch.time}_${seq}" />
+	<property name="lstFile" value="${lstFileName}.lst" />
+	<property name="auth" value="none" />
+	<property name="start_version" value="9589" />
+	<property name="end_version" value="HEAD" />
+	<property name="need_jsp" value="true" />
+	<property name="filter_str" value="" />
+
+	<!-- 开发环境 -->
+	<property name="test-ip" value="112.96.29.151" />
+	<property name="test-port" value="8007" />
+	<property name="test-username" value="veradm1" />
+	<property name="test-remote-dir" value="/app/ver" />
+	<property name="passphrase" value="wp$101214" />
+	<!-- 投产环境 -->
+	<property name="ip" value="112.96.28.35" />
+	<property name="username" value="payopr" />
+	<property name="remote-dir" value="/home/payopr" />
+	<!-- uat环境-->
+	<property name="uat-ip" value="112.96.28.45" />
+	<property name="uat-username" value="veradm1" />
+	<property name="uat-remote-dir" value="/app/ver" />
+	<property name="keyfile" value="/Users/weipeng/.ssh/id_rsa" />
+	
+	<property name="dir" value="${basedir}" />
+	<property name="f" value="" />
+	<property name="updateFile" value="${f}" />
+	<property name="pix" value=".tar.gz" />
+	<property name="tmpDir" value="chmod" />
+	<property name="chmod" value="755" />
+	<target name="build">
+		<echo>上传文件 ${updateFile}</echo>
+		<sshexec host="${test-ip}" port="${test-port}" username="${test-username}" command=". .bash_profile;rm -rf ${tmpDir}/${updateFile}*;mkdir -p ${tmpDir}/${updateFile}" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+
+		<scp file="${dir}/${updateFile}${pix}" port="${test-port}" todir="${test-username}@${test-ip}:${test-remote-dir}/${tmpDir}/${updateFile}" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		<echo>修改文件属性</echo>
+		<sshexec host="${test-ip}" port="${test-port}" username="${test-username}" command=". .bash_profile;cd ${tmpDir}/${updateFile};tar -zvxf ${updateFile}${pix};rm ${updateFile}${pix};chmod -R ${chmod} *;tar -cvf ${updateFile}_final.tar *;gzip ${updateFile}_final.tar" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		<delete file="${dir}/${updateFile}_final${pix}" />
+		
+		<echo>下载 ${tmpDir}/${updateFile}/${updateFile}_final.tar.gz</echo>
+		<scp todir="${dir}" port="${test-port}" trust="true" file="${test-username}@${test-ip}:${tmpDir}/${updateFile}/${updateFile}_final.tar.gz" keyfile="${keyfile}" passphrase="${passphrase}">
+		</scp>
+
+	</target>
+
+
+
+</project>

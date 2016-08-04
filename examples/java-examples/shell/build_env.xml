@@ -1,0 +1,58 @@
+<project default="update">
+	<property name="svn" value="/usr/local/bin/svn" />
+
+	<property name="java" value="/usr/bin/java" />
+	<property name="svn_dir" value="/Users/weipeng/code/wowealth/svn/wowealth" />
+	<tstamp>
+		<format property="touch.time" pattern="yyyyMMdd" unit="hour" />
+	</tstamp>
+
+	<!--property name="lstFileName" value="auto_${touch.time}" /-->
+	<property name="log_tag" value="WCR_00062" />
+	<property name="env_name" value="WBFUAT" />
+	<property name="seq" value="01" />
+	<property name="lstFileName" value="${env_name}_${log_tag}_DEVWP_${touch.time}_${seq}" />
+	<property name="lstFile" value="${lstFileName}.lst" />
+	<property name="auth" value="none" />
+	<property name="start_version" value="9589" />
+	<property name="end_version" value="HEAD" />
+	<property name="need_jsp" value="true" />
+	<property name="filter_str" value="" />
+
+	<!-- 开发环境 -->
+	<property name="test-ip" value="112.96.29.151" />
+	<property name="test-port" value="8007" />
+	<property name="test-username" value="veradm1" />
+	<property name="test-remote-dir" value="/app/ver" />
+	<property name="passphrase" value="wp$101214" />
+	<!-- 投产环境 -->
+	<property name="ip" value="112.96.28.35" />
+	<property name="username" value="payopr" />
+	<property name="remote-dir" value="/home/payopr" />
+	<!-- uat环境-->
+	<property name="uat-ip" value="112.96.28.45" />
+	<property name="uat-username" value="veradm1" />
+	<property name="uat-port" value="22" />
+	<property name="uat-remote-dir" value="/app/ver" />
+	<property name="keyfile" value="/Users/weipeng/.ssh/id_rsa" />
+
+	<property name="dir" value="${basedir}" />
+	<property name="f" value="" />
+	<property name="fileName" value="${f}" />
+	<property name="pix" value=".tar.gz" />
+	<property name="updateFile" value="${fileName}${pix}" />
+
+	<target name="update">
+		<echo>上传文件 ${updateFile}</echo>
+		<sshexec host="${uat-ip}" port="${uat-port}" username="${uat-username}" command=". .bash_profile;rm -rf version/${updateFile}*" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+
+		<scp file="${dir}/${updateFile}" port="${uat-port}" todir="${uat-username}@${uat-ip}:${uat-remote-dir}/version" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		<echo>跟新包</echo>
+		<sshexec host="${uat-ip}" port="${uat-port}" username="${uat-username}" command=". .bash_profile;cd version;hirelease ${updateFile};" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+		<echo>重启服务</echo>
+		<sshexec host="${uat-ip}" port="${uat-port}" username="${uat-username}" command=". .bash_profile;build.sh ${fileName}.lst" keyfile="${keyfile}" trust="true" passphrase="${passphrase}" />
+	</target>
+
+
+
+</project>
