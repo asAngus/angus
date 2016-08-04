@@ -1,0 +1,49 @@
+group 'com.traveler'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext {
+        springBootVersion = "1.2.4.RELEASE"
+        flywayVersion = "3.2.1"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.flywaydb:flyway-gradle-plugin:${flywayVersion}")
+    }
+}
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: "eclipse"
+    apply plugin: "maven"
+    apply plugin: 'org.flywaydb.flyway'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/libs-release" }
+    }
+}
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+jar {
+    baseName = 'helloworld'
+    version =  '0.1.0'
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-release" }
+}
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile("junit:junit")
+}
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2.1'
+}

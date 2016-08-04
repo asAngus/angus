@@ -1,0 +1,97 @@
+8
+
+dir
+64
+svn+ssh://accannis@cs193p.dyndns.org/svn/CS193P/trunk/Lectures/Lecture14-MultiTouch/MultiTouchDemo
+svn+ssh://accannis@cs193p.dyndns.org/svn/CS193P
+
+
+
+2009-05-19T04:50:14.688354Z
+64
+accannis
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+f9e53c42-d698-4390-a87f-1a53175b09d0
+
+main.m
+file
+
+
+
+
+2009-05-19T04:50:48.000000Z
+94309c58f4d2023b982860f46e60fafd
+2009-05-19T04:50:14.688354Z
+64
+accannis
+
+MultiTouchDemoViewController.xib
+file
+
+
+
+
+2009-05-19T04:50:48.000000Z
+7b40681905272b9d74456c7982691ab7
+2009-05-19T04:50:14.688354Z
+64
+accannis
+
+Info.plist
+file
+
+
+
+
+2009-05-19T04:50:48.000000Z
+21ec0dfdd3ba71ebd3dca4b9576773b1
+2009-05-19T04:50:14.688354Z
+64
+accannis
+
+MultiTouchDemo_Prefix.pch
+file
+
+
+
+
+2009-05-19T04:50:48.000000Z
+6164790c48ce4a28c39cd39d81069a76
+2009-05-19T04:50:14.688354Z
+64
+accannis
+
+Resources
+dir
+
+Classes
+dir
+
+MainWindow.xib
+file
+
+
+
+
+2009-05-19T04:50:48.000000Z
+2e7cb06a4e1ee778d57df33cdb93d267
+2009-05-19T04:50:14.688354Z
+64
+accannis
+
+MultiTouchDemo.xcodeproj
+dir
+
