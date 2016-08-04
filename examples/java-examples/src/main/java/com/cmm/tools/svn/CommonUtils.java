@@ -39,6 +39,7 @@ public class CommonUtils {
     private static final String LOG_TAG = "logTag";
     private static final String NEED_JSP = "needJsp";
     private static final String CON_STR = "filterStr";
+    private static final String SVN_TOOL_PATH = "svnToolPath";
 
     public static void main(String[] args) throws FileNotFoundException {
         OptionParser optionParser = new OptionParser();
@@ -52,6 +53,7 @@ public class CommonUtils {
         optionParser.accepts(LOG_TAG, "logTag").withRequiredArg();
         optionParser.accepts(NEED_JSP, "needJsp").withRequiredArg();
         optionParser.accepts(CON_STR, "filterStr").withRequiredArg();
+        optionParser.accepts(SVN_TOOL_PATH, SVN_TOOL_PATH).withRequiredArg();
         OptionSet parse = optionParser.parse(args);
         String helpText = "";
         if (parse.has(HELP)) {
@@ -87,6 +89,8 @@ public class CommonUtils {
         String startVersion = "";
         if (parse.has(START_VERSION)) {
             startVersion = (String) parse.valueOf(START_VERSION);
+        } else {
+            throw new RuntimeException("开始版本号不能为空");
         }
         String endVersion = "";
         if (parse.has(END_VERSION)) {
@@ -109,16 +113,26 @@ public class CommonUtils {
                     .booleanValue();
         }
         String filterStr = "";
-        if (parse.has("filterStr")) {
-            filterStr = parse.valueOf("filterStr").toString();
+        if (parse.has(SVN_TOOL_PATH)) {
+            filterStr = parse.valueOf(SVN_TOOL_PATH).toString();
+        }
+        String svnToolPath = "/usr/local/bin/svn";
+        if (parse.has("svnToolPath")) {
+            svnToolPath = parse.valueOf("svnToolPath").toString();
         }
         File outFile = new File(baseDir, outFileName);
         outFile.delete();
         System.out.println(startVersion + ":" + endVersion + ":" + auth);
-        // ??????н????汾????
-        String[] cmdStrArr = {
-                baseDir.getAbsolutePath() + File.separator + "execute.sh",
-                startVersion, endVersion, auth };
+        // String[] cmdStrArr = {
+        // baseDir.getAbsolutePath() + File.separator + "execute.sh",
+        // startVersion, endVersion, auth };
+        String headVersion = startVersion + ":HEAD";
+        if (null != endVersion && endVersion.length() > 0) {
+            headVersion = startVersion + ":" + endVersion;
+        }
+
+        String[] cmdStrArr = { svnToolPath, "log", "-v", "-r", headVersion,
+                "--xml" };
         String execute = execute(cmdStrArr, new File(svnPath));
         try {
             writeFile(auth, outFile, execute, logTag, needJsp, filterStr);
@@ -299,19 +313,13 @@ public class CommonUtils {
     }
 
     public static String execute(final String[] cmdStrArr, File workFile) {
+
         StringBuffer resBuf = new StringBuffer();
         Runtime rt = Runtime.getRuntime();
         BufferedReader bufr = null;
 
         try {
             Process p = rt.exec(cmdStrArr, null, workFile);
-
-            // int exitVal = p.waitFor();
-            //
-            // // ??н?????????????
-            // if (0 != exitVal) {
-            // return executeCMDRepeat(cmdStrArr);
-            // }
 
             bufr = new BufferedReader(
                     new InputStreamReader(p.getInputStream()));
@@ -339,13 +347,12 @@ public class CommonUtils {
     }
 
     /**
-     * ?????????????
      * 
      * @param cmdStrArr
      * @return
      * @throws CacheException
      */
-    public static String executeCMDRepeat(final String[] cmdStrArr) {
+    public static String executeCMDRepeat(final String[] cmdStrArr, File file) {
         StringBuffer resBuf = new StringBuffer();
         Runtime rt = Runtime.getRuntime();
         BufferedReader bufr = null;
@@ -374,7 +381,6 @@ public class CommonUtils {
         }
 
         return resBuf.toString();
-
     }
 
 }
