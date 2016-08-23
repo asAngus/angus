@@ -28,8 +28,6 @@ public class Json2Object {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
 
         } catch (InstantiationException e) {

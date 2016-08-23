@@ -54,7 +54,7 @@ public class HttpUtils {
         return stringBuffer.toString();
     }
 
-    public static void readContentFromPost(String url) {
+    public static void doPost(String url) {
         // Post请求的url，与get不同的是不需要带参数
 
         // 打开连接
