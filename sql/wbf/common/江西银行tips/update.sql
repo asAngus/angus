@@ -1,0 +1,4 @@
+--跟新银行理财提示信息,修改来金提示信息
+UPDATE "PAYADM"."CMMTMAINCONFIGPRD" SET PRD_ID = 'JXBANK201609211' WHERE config_prd_id='6001';
+UPDATE "PAYADM"."CMMTMAINCONFIGTAG" SET TAG_TYPE = '1',tag_name='灵活存取，当日起息' WHERE config_prd_id ='4002' and tag_mod='13';
+UPDATE "PAYADM"."CMMTMAINCONFIGTAG" SET TAG_NAME = '9月25日15点截止购买',TAG_TYPE = '1' WHERE  id = '157';

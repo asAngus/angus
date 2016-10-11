@@ -4,11 +4,14 @@ update URMTSMLG set send_num='0' where mbl_no='18684506150';
 select * from URMTSMLG where mbl_no='15652940345' order by send_date desc ;
 
 --富国产品信息表
-select * from FUNTPUBINF;
+select * from FUNTPUBINF;--
 --定期理财
 select * from cmmtpro where prd_id='JXBANK201609071';
+select * from ptstwebconfig where out_url like '%proInfoJump';
 --招商基金,天天基金
-select * from fundtzlinf;
+select * from fundtzlinf;    
+select * from ptstwebconfig where out_url like '%qrydayfund';
+select * from ptstwebconfig where out_url like '%detailfundinf';
 
 --基金理财
 select * from fundtzlinf where (tx_dt,fund_code) in (select max(tx_dt),fund_code from fundtzlinf group by fund_code);
@@ -26,7 +29,7 @@ update FUNDTZLINF set TX_DT=to_char(sysdate,'yyyymmdd') where (tx_dt,FUND_CODE) 
 SELECT COUNT(1) BIND_COUNT FROM (SELECT CAP_CRD_NO FROM
 				URMTFUNDINF WHERE
 				USR_NO = (select usr_no from Urmtfinf where mbl_no ='13574856074')
-				AND
+				AND 
 				CAP_CRD_NO IS NOT NULL UNION
 				SELECT
 				CAP_CRD_NO FROM URMTFINF WHERE
@@ -40,8 +43,6 @@ select * from urmtpinf where usr_no ='bab34a81baae357d7e37d583';
 select * from urmtfinf where id_no='150207197410268043';
 select * from Urmtfinf where mbl_no ='13621607648';
 
---定期理财产品信息表
-select * from cmmtpro where prd_id='JF201506020000000408';
 
 select * from MCAADM.PTSTWEBCONFIG where url like '%MCA2027078%';
 
@@ -133,7 +134,7 @@ delete urmtpinf where usr_no in (select usr_No from urmtpinf where mbl_no='15608
 delete from mkmtbon where usr_mbl_no='15608404490';
 
 commit;
-select * from urmtfinf where mbl_no='18810563006';
+select * from urmtfinf where mbl_no='18274023779';
 select * from URMTFUNDINF where mbl_no='18810563006';
 select * from urmtpinf where mbl_no='18810563006';
 update urmtpinf set Real_Flag=0,id_no=null,real_name=null where usr_no='b2884c0782c0580ee240dbea';
@@ -269,6 +270,10 @@ select  * from PRDTCURPARA;
 
 --帮助中心
 select * from CMSTCTP where typ_pos = 'HELP';
+select * from CMSTCNT where CNT_TYP_ID in (select typ_id from CMSTCTP where typ_pos = 'HELP') order by to_number(cnt_id) desc;
+select * from CMSTCNT order by to_number(cnt_id) desc; --0000001750,
+select * from CMSTCNT where cnt_id = 0000015152;
+select * from ptstwebconfig where out_url like '%getCmsCnt%';
 
 
 select * from PWMTJNQPAG where mbl_no='15278179747';
@@ -278,7 +283,8 @@ select * from cmmtmainconfig where (mod_id like 'h5_%' or mod_id like 'wc_%') an
 select * from Cmmtmainconfigdata where mod_id in(select mod_id from cmmtmainconfig where (mod_id like 'h5_%' or mod_id like 'wc_%') and mod_id not like '%_hotsale_%') order by mod_id,mod_sort;
 select * from Cmmtmainconfigprd where Config_Prd_Id in (select config_id from Cmmtmainconfigdata where mod_id in(select mod_id from cmmtmainconfig where (mod_id like 'h5_%' or mod_id like 'wc_%') and mod_id not like '%_hotsale_%')) order by config_prd_id,id;
 select * from Cmmtmainconfigtag where Config_Prd_Id in (select config_id from Cmmtmainconfigdata where mod_id in(select mod_id from cmmtmainconfig where (mod_id like 'h5_%' or mod_id like 'wc_%') and mod_id not like '%_hotsale_%')) order by config_prd_id,tag_mod;
-
+select * from cmmtmainconfigprddetail;--产品配置详情页
+select * from prdtdetailconfig;
 delete from Cmmtmainconfigprd where Config_Prd_Id in (select config_id from Cmmtmainconfigdata where mod_id in(select mod_id from cmmtmainconfig where (mod_id like 'h5_%' or mod_id like 'wc_%') and mod_id not like '%_hotsale_%')) ;
 delete from Cmmtmainconfigtag where Config_Prd_Id in (select config_id from Cmmtmainconfigdata where mod_id in(select mod_id from cmmtmainconfig where (mod_id like 'h5_%' or mod_id like 'wc_%') and mod_id not like '%_hotsale_%')) ;
 delete from Cmmtmainconfigdata where mod_id in(select mod_id from cmmtmainconfig where (mod_id like 'h5_%' or mod_id like 'wc_%') and mod_id not like '%_hotsale_%') ;
@@ -290,4 +296,4 @@ UPDATE "PAYADM"."CMMTMAINCONFIGPRD" SET FIELD_NM = 'FUND_NO,FUND_CD,FUND_NM,TO_C
 select * from Cmmtmainconfigtag where tag_MOd=13;
 
 
-
+select * from prdtdetailconfig t pivot (count(1) for prd_id in ('519915'));
