@@ -1,0 +1,15 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+?? 10, 2017 6:10:42 ?? org.apache.http.impl.execchain.RetryExec execute
+??: I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {s}->https://trans.chbtc.com:443: The target server failed to respond
+?? 10, 2017 6:10:42 ?? org.apache.http.impl.execchain.RetryExec execute
+??: Retrying request to {s}->https://trans.chbtc.com:443
+?? 10, 2017 7:16:42 ?? org.apache.http.impl.execchain.RetryExec execute
+??: I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {s}->https://trans.chbtc.com:443: The target server failed to respond
+?? 10, 2017 7:16:42 ?? org.apache.http.impl.execchain.RetryExec execute
+??: Retrying request to {s}->https://trans.chbtc.com:443
+?? 10, 2017 8:11:12 ?? org.apache.http.impl.execchain.RetryExec execute
+??: I/O exception (java.net.SocketException) caught when processing request to {s}->https://trans.chbtc.com:443: Operation timed out
+?? 10, 2017 8:11:12 ?? org.apache.http.impl.execchain.RetryExec execute
+??: Retrying request to {s}->https://trans.chbtc.com:443

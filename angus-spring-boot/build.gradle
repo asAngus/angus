@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = "1.2.4.RELEASE"
+        springBootVersion = '1.4.3.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -76,7 +76,4 @@ flyway {
     password = ''
     schemas = ['schemas1','schemas2']
     //callbacks = ['com.mycompany.proj.CustomCallback', 'com.mycompany.proj.AnotherCallback']
-}
-task wrapper(type: Wrapper) {
-    gradleVersion = "2.8"
 }
