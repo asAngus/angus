@@ -1,0 +1,159 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.8.RELEASE'
+	}
+	repositories {
+		//maven { url 'http://192.168.0.197:8889/nexus/content/groups/public/' }
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	//maven { url 'http://192.168.0.197:8889/nexus/content/groups/public/' }
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+
+ext {
+	azureVersion = '0.2.0'
+	keycloakVersion = '3.2.1.Final'
+	springCloudServicesVersion = '1.5.0.RELEASE'
+	springCloudTaskVersion = '1.2.2.RELEASE'
+	springCloudVersion = 'Dalston.SR4'
+	vaadinVersion = '8.1.0'
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-activemq')
+	compile('org.activiti:activiti-spring-boot-starter-basic:5.21.0')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-actuator-docs')
+	compile('org.springframework.boot:spring-boot-starter-amqp')
+	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile('org.springframework.boot:spring-boot-starter-artemis')
+	compile('com.microsoft.azure:azure-active-directory-spring-boot-starter')
+	compile('com.microsoft.azure:azure-keyvault-secrets-spring-boot-starter')
+	compile('com.microsoft.azure:azure-storage-spring-boot-starter')
+	compile('com.microsoft.azure:azure-spring-boot')
+	compile('org.springframework.boot:spring-boot-starter-batch')
+	compile('org.springframework.boot:spring-boot-starter-cache')
+	compile('org.apache.camel:camel-spring-boot-starter:2.20.0')
+	compile('org.springframework.cloud:spring-cloud-starter-aws')
+	compile('org.springframework.cloud:spring-cloud-starter-aws-jdbc')
+	compile('org.springframework.cloud:spring-cloud-starter-aws-messaging')
+	compile('org.springframework.cloud:spring-cloud-starter-bus-amqp')
+	compile('org.springframework.cloud:spring-cloud-starter-bus-kafka')
+	compile('org.springframework.cloud:spring-cloud-cloudfoundry-discovery')
+	compile('org.springframework.cloud:spring-cloud-starter-config')
+	compile('org.springframework.cloud:spring-cloud-config-server')
+	compile('org.springframework.boot:spring-boot-starter-cloud-connectors')
+	compile('org.springframework.cloud:spring-cloud-starter-eureka')
+	compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+	compile('org.springframework.cloud:spring-cloud-starter-feign')
+	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+	compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
+	compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+	compile('org.springframework.cloud:spring-cloud-starter-ribbon')
+	compile('org.springframework.cloud:spring-cloud-starter-security')
+	compile('org.springframework.cloud:spring-cloud-sleuth-stream')
+	compile('org.springframework.cloud:spring-cloud-sleuth-zipkin-stream')
+	compile('org.springframework.cloud:spring-cloud-starter')
+	compile('org.springframework.cloud:spring-cloud-starter-consul-discovery')
+	compile('org.springframework.cloud:spring-cloud-starter-sleuth')
+	compile('org.springframework.cloud:spring-cloud-starter-zipkin')
+	compile('org.springframework.cloud:spring-cloud-starter-zookeeper-config')
+	compile('org.springframework.cloud:spring-cloud-starter-zookeeper-discovery')
+	compile('org.springframework.cloud:spring-cloud-stream-binder-kafka')
+	compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
+	compile('org.springframework.cloud:spring-cloud-starter-task')
+	compile('org.springframework.cloud:spring-cloud-starter-turbine')
+	compile('org.springframework.cloud:spring-cloud-starter-turbine-stream')
+	compile('org.springframework.cloud:spring-cloud-starter-zuul')
+	compile('org.apache.cxf:cxf-spring-boot-starter-jaxrs:3.1.11')
+	compile('org.springframework.boot:spring-boot-starter-data-cassandra')
+	compile('org.springframework.boot:spring-boot-starter-data-couchbase')
+	compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
+	compile('org.springframework.boot:spring-boot-starter-data-gemfire')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-data-ldap')
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile('org.springframework.boot:spring-boot-starter-data-neo4j')
+	compile('org.springframework.boot:spring-boot-starter-data-redis')
+	compile('org.springframework.boot:spring-boot-starter-data-rest')
+	compile('org.springframework.boot:spring-boot-starter-data-solr')
+	compile('org.flywaydb:flyway-core')
+	compile('org.springframework.boot:spring-boot-starter-freemarker')
+	compile('org.springframework.boot:spring-boot-starter-groovy-templates')
+	compile('org.springframework.boot:spring-boot-starter-integration')
+	compile('org.springframework.boot:spring-boot-starter-jdbc')
+	compile('org.springframework.boot:spring-boot-starter-jersey')
+	compile('org.springframework.boot:spring-boot-starter-jooq')
+	compile('org.springframework.boot:spring-boot-starter-jta-atomikos')
+	compile('org.springframework.boot:spring-boot-starter-jta-bitronix')
+	compile('org.springframework.boot:spring-boot-starter-jta-narayana')
+	compile('org.springframework.kafka:spring-kafka')
+	compile('org.keycloak:keycloak-spring-boot-starter')
+	compile('org.liquibase:liquibase-core')
+	compile('org.springframework.boot:spring-boot-starter-mail')
+	compile('org.springframework.boot:spring-boot-starter-mobile')
+	compile('org.springframework.boot:spring-boot-starter-mustache')
+	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1')
+	compile('io.ratpack:ratpack-spring-boot:1.1.1')
+	compile('org.springframework.retry:spring-retry')
+	compile('io.pivotal.spring.cloud:spring-cloud-services-starter-circuit-breaker')
+	compile('io.pivotal.spring.cloud:spring-cloud-services-starter-config-client')
+	compile('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.session:spring-session')
+	compile('org.springframework.boot:spring-boot-starter-social-facebook')
+	compile('org.springframework.boot:spring-boot-starter-social-linkedin')
+	compile('org.springframework.boot:spring-boot-starter-social-twitter')
+	compile('org.springframework.shell:spring-shell-starter:2.0.0.M2')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('com.vaadin:vaadin-spring-boot-starter')
+	compile('org.springframework.boot:spring-boot-starter-validation')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-web-services')
+	compile('org.springframework.boot:spring-boot-starter-websocket')
+	runtime('org.apache.derby:derby')
+	runtime('org.springframework.boot:spring-boot-devtools')
+	runtime('com.h2database:h2')
+	runtime('org.hsqldb:hsqldb')
+	runtime('mysql:mysql-connector-java')
+	runtime('org.postgresql:postgresql')
+	runtime('com.microsoft.sqlserver:mssql-jdbc')
+	runtime('io.zipkin.java:zipkin-autoconfigure-ui')
+	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
+	testCompile('org.springframework.cloud:spring-cloud-starter-contract-verifier')
+	testCompile('org.springframework.cloud:spring-cloud-contract-wiremock')
+	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+	testCompile('org.springframework.batch:spring-batch-test')
+	testCompile('org.springframework.security:spring-security-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloakVersion}"
+		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+		mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:${springCloudServicesVersion}"
+		mavenBom "com.microsoft.azure:azure-spring-boot-bom:${azureVersion}"
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "org.springframework.cloud:spring-cloud-task-dependencies:${springCloudTaskVersion}"
+	}
+}
