@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- <classPathEntry location="ojdbc14.jar" /> -->
+    <classPathEntry location="/Users/weipeng/code/repo/mysql/mysql-connector-java/5.1.44/mysql-connector-java-5.1.44.jar"/><!-- 这里配置本地oracle驱动jdbc jar包 -->
+    <context id="mysql" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>
+        <plugin type="com.wowealth.tool.plugin.TopSerializablePlugin"></plugin>
+
+        <commentGenerator type="com.wowealth.tool.plugin.DBCommentGenerator">
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://db.meilichain.com:3306/smartroom"
+                        userId="iroom" password="Cmcc$Nokia!2018=">
+            <property name="remarksReporting" value="true"/>
+        </jdbcConnection>
+        <!-- POJO类生成配置 -->
+        <javaModelGenerator targetPackage="com.wbl.app.po.order" targetProject="/Users/weipeng/code/bak/wbl/smart_room/access-server/smart_room.provider.app/src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+
+        <!-- SqlMap文件生成配置 -->
+        <sqlMapGenerator targetPackage="com.wbl.app.mybatis.mapper" targetProject="/Users/weipeng/code/bak/wbl/smart_room/access-server/smart_room.provider.app/src/main/resources">
+        </sqlMapGenerator>
+        <!--生成mapper类存放位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.wbl.app.mybatis.mapper" targetProject="/Users/weipeng/code/bak/wbl/smart_room/access-server/smart_room.provider.app/src/main/java">
+        </javaClientGenerator>
+
+        <!-- 需要生成的数据 private String emergencyName;-->
+        <table tableName="order_cfg_person_audit" domainObjectName="OrderCfgPersonAudit"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+    </context>
+</generatorConfiguration>

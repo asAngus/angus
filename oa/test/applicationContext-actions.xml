@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  - Application context definition for JPetStore's business layer.
+  - Contains bean references to the transaction manager and to the DAOs in
+  - dataAccessContext-local/jta.xml (see web.xml's "contextConfigLocation").
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	<bean name="/org" class="com.bjsxt.oa.web.actions.OrgAction" scope="prototype">
+		<property name="orgManager" ref="orgManager"/>
+	</bean>
+	<bean name="/person" class="com.bjsxt.oa.web.actions.PersonAction" scope="prototype" >
+		<property name="personManager" ref="personManager"></property>
+	</bean>
+    <bean name="/module" class="com.bjsxt.oa.web.actions.ModuleAction" scope="prototype" >
+    	<property name="moduleManager" ref="moduleManager"></property>
+    </bean>
+    <bean name="/role" class="com.bjsxt.oa.web.actions.RoleAction" scope="prototype" >
+    	<property name="roleManager" ref="roleManager"></property>
+    </bean>
+    <bean name="/user" class="com.bjsxt.oa.web.actions.UserAction" scope="prototype" >
+    	<property name="userManager" ref="userManager"></property>
+    	<property name="personManager" ref="personManager"></property>
+    	<property name="roleManager" ref="roleManager"></property>
+    </bean>
+    <bean name="/acl" class="com.bjsxt.oa.web.actions.AclAction" scope="prototype" >
+    	<property name="userManager" ref="userManager"></property>
+    	<property name="moduleManager" ref="moduleManager"></property>
+    	<property name="roleManager" ref="roleManager"></property>
+    </bean>
+    <bean name="/login" class="com.bjsxt.oa.web.actions.LoginAction" scope="prototype" >
+    	<property name="userManager" ref="userManager"></property>
+    </bean>
+    <bean name="/index" class="com.bjsxt.oa.web.actions.IndexAction" scope="prototype" >
+    	<property name="aclManager" ref="aclManager"></property>
+    </bean>
+    <bean name="/workflow" class="com.bjsxt.oa.web.actions.WorkflowAction" scope="prototype" >
+    	<property name="workflowManager" ref="workflowManager"></property>
+    </bean>
+    <bean name="/document" class="com.bjsxt.oa.web.actions.DocumentAction">
+    	<property name="documentManager" ref="documentManager"></property>
+    	<property name="workflowManager" ref="workflowManager"></property>
+    </bean>
+    <bean name="/flowform" class="com.bjsxt.oa.web.actions.FlowFormAction" scope="prototype">
+    	<property name="formManager" ref="formManager"></property>
+    	<property name="workflowManager" ref="workflowManager"></property>
+    </bean>    
+    
+    <bean name="/meetingRoom" class="com.bjsxt.oa.web.actions.MeetingRoomAction" scope="prototype">
+    	<property name="meetingRoomManager" ref="meetingRoomManager"></property>
+    </bean>
+    
+    <bean name="/org_tree" class="com.bjsxt.oa.web.actions.OrgActionTree" scope="prototype">
+    	<property name="orgManager" ref="orgManager"/>
+    </bean>
+    <bean name="/person_tree" class="com.bjsxt.oa.web.actions.PersonActionTree" scope="prototype">
+    	<property name="personManager" ref="personManager"></property>
+    </bean>    
+</beans>
